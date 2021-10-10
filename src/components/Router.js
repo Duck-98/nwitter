@@ -1,6 +1,6 @@
 import { HashRouter as Router, Route, Switch} from "react-router-dom";// as를 이용하여 HashRouter의 이름을 Router로 변경.
-import Auth from '../routes/Auth';
-import Home from '../routes/Home';
+import Auth from 'routes/Auth';
+import Home from 'routes/Home';
 
 
 
