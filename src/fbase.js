@@ -1,7 +1,8 @@
 // fBase.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import "firebase/database"; // 파이어베이스 데이터베이스를 사용하기 위해 import 함
+import { getFirestore } from "firebase/firestore";
+ // 파이어베이스 데이터베이스를 사용하기 위해 import 함
 
 const firebaseConfig = {
 apiKey: process.env.REACT_APP_API_KEY,
@@ -15,3 +16,5 @@ appId: process.env.REACT_APP_APP_ID,
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth();
+export const dbService = getFirestore();
+
