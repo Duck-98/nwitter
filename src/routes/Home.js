@@ -1,6 +1,7 @@
 import { dbService } from 'fbase';
 import React,{useState, useEffect} from "react";
-import {addDoc, collection,getFirestore,query, onSnapshot,orderBy} from "firebase/firestore";
+import {addDoc, collection,query, onSnapshot,orderBy} from "firebase/firestore";
+import Nweet from "components/Nweet"
 
 const Home = ({userObj}) => {
     const [nweet, setNweet] = useState("");
@@ -54,9 +55,11 @@ return (
     <div> 
         {nweets.map((nweet) => (
 // map 함수를 이용하여 nweets 배열을 순회하면서 jsx를 반환하게 만들어서 트윗 배열들을 웹에 나타냄.
-        <div key={nweet.id}>
-            <h4>{nweet.nweet}</h4>
-        </div>
+        <Nweet 
+        key={nweet.id} 
+        nweetObj={nweet}
+        isOwner={nweet.creatorId === userObj.uid}
+        />
             ))}
     </div>
 </div>
