@@ -7,29 +7,19 @@ const Home = ({userObj}) => {
     const [nweets, setNweets] = useState([]); //  트윗들을  상태로 받아서 보관해야하기 때문에 배열로 usestate 생성
     
     useEffect(() => {
-        // 실시간으로 데이터를 데이터베이스에서 가져오기
-        const q = query(
-        collection(getFirestore(), 'tweets'),
-        // where('text', '==', 'hehe') // where뿐만아니라 각종 조건 이 영역에 때려부우면 됨
-        orderBy('createdAt')
-        );
-        const unsubscribe = onSnapshot(q, querySnapshot => {
-        const newArray = querySnapshot.docs.map(doc => {
-        return {
+        onSnapshot(
+        query(collection(dbService, "nweets"), orderBy("createdAt", "desc")),
+        (snapshot) => {
+        const nweetArray = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-        };
-        });
-        setNweets(newArray);
-        console.log('Current tweets in CA: ', newArray);
-        });
-        
-        return () => {
-        unsubscribe();
-        };
+        }));
+        setNweets(nweetArray);
+        }
+        );
         }, []);
 
-        
+
     const onSubmit = async (e) => {
         try{
         e.preventDefault();
