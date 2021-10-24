@@ -1,28 +1,35 @@
 import { dbService } from 'fbase';
 import React,{useState, useEffect} from "react";
-import {addDoc, collection,getDocs,query} from "firebase/firestore";
+import {addDoc, collection,getFirestore,query, onSnapshot,orderBy} from "firebase/firestore";
 
-const Home = () => {
+const Home = ({userObj}) => {
     const [nweet, setNweet] = useState("");
     const [nweets, setNweets] = useState([]); //  트윗들을  상태로 받아서 보관해야하기 때문에 배열로 usestate 생성
-    const getNweets = async ()=> {
-        const q = query(collection(dbService,"nweets"));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-        const nweetObj = { //nweetObj => 트윗 내용 
-            ...doc.data(), // ES6 spread attribute 기능(전개구문)
-            id:doc.id,
-        } // 중요!!) querySnapShot에 있는 doc(트윗 갯수)가 5개면 forEach함수는 5번 순회가 됨.
-        // 이때 nweets에 트윗 데이터를 쌓고 싶으면 순회 이전의 nweets와 순회중인 데이터를 [nweetObj,...prev]처럼 합침.
-         setNweets(prev => [nweetObj,...prev]);   
-         // 그렇기 때문에 순회 이전의 nweets는 setNweet에 인자로 전달된 함수의 첫번째 인자로 넘어오게됨.
-         // 즉 nweetobj에는 최신 트윗이 0번째 배열로 위치하고 이전에 온 트윗은 1번째 배열에 위치하게 됨.
-        });
-    };
-    useEffect(() => {
-        getNweets();
     
-    }, [])
+    useEffect(() => {
+        // 실시간으로 데이터를 데이터베이스에서 가져오기
+        const q = query(
+        collection(getFirestore(), 'tweets'),
+        // where('text', '==', 'hehe') // where뿐만아니라 각종 조건 이 영역에 때려부우면 됨
+        orderBy('createdAt')
+        );
+        const unsubscribe = onSnapshot(q, querySnapshot => {
+        const newArray = querySnapshot.docs.map(doc => {
+        return {
+        id: doc.id,
+        ...doc.data(),
+        };
+        });
+        setNweets(newArray);
+        console.log('Current tweets in CA: ', newArray);
+        });
+        
+        return () => {
+        unsubscribe();
+        };
+        }, []);
+
+        
     const onSubmit = async (e) => {
         try{
         e.preventDefault();
@@ -30,6 +37,7 @@ const Home = () => {
             {
             nweet,
             createdAt: Date.now(),
+            creatorId : userObj.uid, // db에 유저아이디 추가
         }); // 데이터베이스 생성 
         console.log("Document Written with Id:", docRef.id);
         }catch(error){

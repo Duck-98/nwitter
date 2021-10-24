@@ -8,11 +8,14 @@ function App() {
   
   const [init, setInit] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(auth.currentUser)
-  
+  const [userObj, setUserObj] = useState(null); // 로그인 정보관리를 위한 useState
+
+
   useEffect(() => {
     auth.onAuthStateChanged((user) =>{
       if(user){
         setIsLoggedIn(true);
+        setUserObj(user);
       }else{
         setIsLoggedIn(false)
       }
@@ -22,7 +25,8 @@ function App() {
 
   return (
     <>
-  {init ? <AppRouter isLoggedIn = {isLoggedIn} /> : "Initialzizing.."}
+  {init ? <AppRouter isLoggedIn = {isLoggedIn} userObj={userObj} /> : "Initialzizing.."} 
+  {/* userObj를 AppRouter을 이용하여 보냄 */}
   <footer>&copy; {new Date().getFullYear()} Nwitter</footer>
 
    </>

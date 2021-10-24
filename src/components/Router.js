@@ -5,7 +5,7 @@ import Navigation from './Navigation';
 import Profile from 'routes/Profile';
 
 
-const AppRouter = ({isLoggedIn}) =>{ //Router을 이미 정의했기 때문에 다른 이름으로 정의
+const AppRouter = ({isLoggedIn, userObj}) =>{ //Router을 이미 정의했기 때문에 다른 이름으로 정의
     //상위 컴포넌트에서 받은 프롭스는 구조분해 할당으로 사용
    
     return( // switch를 이용하면 여러가지 라우트 중 하나만 렌더링하게 해줌.
@@ -16,7 +16,7 @@ const AppRouter = ({isLoggedIn}) =>{ //Router을 이미 정의했기 때문에 �
                 {isLoggedIn ?( // 로그인 상태 시
                 <>
                     <Route exact path ="/">  
-                        <Home />
+                        <Home userObj={userObj} />
                     </Route>  
                     <Route exact path ="/profile">  
                     <Profile />
