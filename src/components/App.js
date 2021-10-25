@@ -27,7 +27,6 @@ function App() {
     <>
   {init ? <AppRouter isLoggedIn = {isLoggedIn} userObj={userObj} /> : "Initialzizing.."} 
   {/* userObj를 AppRouter을 이용하여 보냄 */}
-  <footer>&copy; {new Date().getFullYear()} Nwitter</footer>
 
    </>
   )

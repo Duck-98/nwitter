@@ -6,7 +6,7 @@ import Nweet from "components/Nweet"
 const Home = ({userObj}) => {
     const [nweet, setNweet] = useState("");
     const [nweets, setNweets] = useState([]); //  트윗들을  상태로 받아서 보관해야하기 때문에 배열로 usestate 생성
-    
+    const [attachment, setAttachment] = useState(""); // 사진파일 url을 관리하기 위한 state
     useEffect(() => {
         onSnapshot( // OnSnapshot 함수를 이용하여 모든 스냅샷을 반환함.
         query(collection(dbService, "nweets"), orderBy("createdAt", "desc")),
@@ -43,14 +43,31 @@ const Home = ({userObj}) => {
         }= event;
         setNweet(value);
     };
-    console.log(nweets);
+    const onFileChange = (event) =>{
+        const {target : {files}} = event;
+        console.log(event.target.files)
+        const theFile = files[0];
+        const reader = new FileReader(); 
+        reader.onloadend = (finishedEvent) => { 
+            const {
+                currentTarget  : {result},
+            } = finishedEvent;
+            setAttachment(result);
+        
+        };
+        
+        reader.readAsDataURL(theFile); // 파일 정보를 인자로 받아 파일 위치를 url로 반환해줌.
+        
+    }
 
 return (
  <>   
 <div>
     <form onSubmit={onSubmit}>
         <input value={nweet} onChange={onChange} type = "text" placeholder ="what's on your mind" maxLength={120} />
+        <input type="file" accept="image/*" onChange={onFileChange} />
         <input type="submit" value="nweet"/>
+        {attachment && <img src ={attachment} width ="50px" height = "50px"/>}
     </form>
     <div> 
         {nweets.map((nweet) => (
@@ -59,6 +76,7 @@ return (
         key={nweet.id} 
         nweetObj={nweet}
         isOwner={nweet.creatorId === userObj.uid}
+         // isOwner  nweet.creatorId === userObj.uid가 같아야 권한을 줄 수 있게 설정.
         />
             ))}
     </div>
