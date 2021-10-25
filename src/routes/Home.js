@@ -1,5 +1,5 @@
 import { dbService } from 'fbase';
-import React,{useState, useEffect} from "react";
+import React,{useState, useEffect, useRef} from "react";
 import {addDoc, collection,query, onSnapshot,orderBy} from "firebase/firestore";
 import Nweet from "components/Nweet"
 
@@ -44,8 +44,8 @@ const Home = ({userObj}) => {
         setNweet(value);
     };
     const onFileChange = (event) =>{
-        const {target : {files}} = event;
-        console.log(event.target.files)
+        const {target : {files},
+        } = event;
         const theFile = files[0];
         const reader = new FileReader(); 
         reader.onloadend = (finishedEvent) => { 
@@ -53,21 +53,35 @@ const Home = ({userObj}) => {
                 currentTarget  : {result},
             } = finishedEvent;
             setAttachment(result);
-        
         };
-        
         reader.readAsDataURL(theFile); // 파일 정보를 인자로 받아 파일 위치를 url로 반환해줌.
-        
-    }
+    }; // 사진 파일 업로드 코드
+    
+    const fileInput = useRef(); //  이미지 파일명을 지우기 위해 useRef 훅 사용
+
+    const onClearPhoto= () =>{
+        setAttachment("");
+        fileInput.current.value = "";
+    } 
+    
+
+
 
 return (
  <>   
 <div>
     <form onSubmit={onSubmit}>
         <input value={nweet} onChange={onChange} type = "text" placeholder ="what's on your mind" maxLength={120} />
-        <input type="file" accept="image/*" onChange={onFileChange} />
+        <input type="file" accept="image/*" onChange={onFileChange} ref={fileInput} />
         <input type="submit" value="nweet"/>
-        {attachment && <img src ={attachment} width ="50px" height = "50px"/>}
+        
+         {attachment && (
+          <div>
+            <img src={attachment} width="50px" height="50px" />
+            <button onClick={onClearPhoto}>Clear</button>
+          </div>
+        )}
+
     </form>
     <div> 
         {nweets.map((nweet) => (
