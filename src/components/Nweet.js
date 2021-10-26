@@ -43,7 +43,7 @@ const Nweet = ({nweetObj, isOwner}) =>{
         {editing ? (
             <>
             <form onSubmit={onSubmit}>
-                <input onChange={onChange} type="text" placeholder ="Edit yout tweet!" value={newNweet} required />
+                <input onChange={onChange} type="text" placeholder ="Edit you tweet!" value={newNweet} required />
                 <input type ="submit" value="Update tweet"/>
             </form>
             <button onClick={toggleEditing}>Cancel</button>
