@@ -40,8 +40,8 @@ const Home = ({userObj}) => {
             console.log("Error adding document", error)
         }
         setNweet("") */
-        const fileRef = ref(storageService,
-        `${userObj.uid}/${v4()}`); // 스토리지 레퍼런스 호출
+
+        const fileRef = ref(storageService, `${userObj.uid}/${v4()}`); // 스토리지 레퍼런스 호출
 
         const response = await uploadingString(fileRef, attachment, "data_url");
         console.log(response);
@@ -59,7 +59,7 @@ const Home = ({userObj}) => {
         reader.onloadend = (finishedEvent) => { 
             const {
                 currentTarget  : {result},
-            } = finishedEvent;ㅇ
+            } = finishedEvent;
             setAttachment(result);
         };
         reader.readAsDataURL(theFile); // 파일 정보를 인자로 받아 파일 위치를 url로 반환해줌.
