@@ -1,7 +1,10 @@
-import { dbService } from 'fbase';
+import { dbService , storageService} from 'fbase';
 import React,{useState, useEffect, useRef} from "react";
 import {addDoc, collection,query, onSnapshot,orderBy} from "firebase/firestore";
 import Nweet from "components/Nweet"
+import {v4 as uuid} from "uuid";
+import {ref, uploadingString} from "firebase/storage";
+
 
 const Home = ({userObj}) => {
     const [nweet, setNweet] = useState("");
@@ -23,9 +26,10 @@ const Home = ({userObj}) => {
 
 
     const onSubmit = async (e) => {
-        try{
-        e.preventDefault();
-        const docRef = await addDoc(collection(dbService, "nweets"),
+       /* try{
+       e.preventDefault();
+       
+       const docRef = await addDoc(collection(dbService, "nweets"),
             {
             nweet,
             createdAt: Date.now(),
@@ -35,8 +39,12 @@ const Home = ({userObj}) => {
         }catch(error){
             console.log("Error adding document", error)
         }
+        setNweet("") */
+        const fileRef = ref(storageService,
+        `${userObj.uid}/${v4()}`); // 스토리지 레퍼런스 호출
 
-        setNweet("");
+        const response = await uploadingString(fileRef, attachment, "data_url");
+        console.log(response);
     };
     const onChange = (event) =>{
         const {target : {value},
@@ -51,7 +59,7 @@ const Home = ({userObj}) => {
         reader.onloadend = (finishedEvent) => { 
             const {
                 currentTarget  : {result},
-            } = finishedEvent;
+            } = finishedEvent;ㅇ
             setAttachment(result);
         };
         reader.readAsDataURL(theFile); // 파일 정보를 인자로 받아 파일 위치를 url로 반환해줌.
