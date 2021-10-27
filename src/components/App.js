@@ -1,3 +1,4 @@
+import React from 'react';
 import AppRouter from 'components/Router';
 import {useState, useEffect} from "react";
 import { auth } from "fbase";

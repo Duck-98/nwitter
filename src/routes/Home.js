@@ -1,10 +1,7 @@
-import { dbService , storageService} from 'fbase';
+import { dbService } from 'fbase';
 import React,{useState, useEffect, useRef} from "react";
 import {addDoc, collection,query, onSnapshot,orderBy} from "firebase/firestore";
 import Nweet from "components/Nweet"
-import {v4 as uuid} from "uuid";
-import {ref, uploadingString} from "firebase/storage";
-
 
 const Home = ({userObj}) => {
     const [nweet, setNweet] = useState("");
@@ -26,10 +23,9 @@ const Home = ({userObj}) => {
 
 
     const onSubmit = async (e) => {
-       /* try{
-       e.preventDefault();
-       
-       const docRef = await addDoc(collection(dbService, "nweets"),
+        try{
+        e.preventDefault();
+        const docRef = await addDoc(collection(dbService, "nweets"),
             {
             nweet,
             createdAt: Date.now(),
@@ -39,12 +35,8 @@ const Home = ({userObj}) => {
         }catch(error){
             console.log("Error adding document", error)
         }
-        setNweet("") */
 
-        const fileRef = ref(storageService, `${userObj.uid}/${v4()}`); // 스토리지 레퍼런스 호출
-
-        const response = await uploadingString(fileRef, attachment, "data_url");
-        console.log(response);
+        setNweet("");
     };
     const onChange = (event) =>{
         const {target : {value},
@@ -80,8 +72,9 @@ return (
 <div>
     <form onSubmit={onSubmit}>
         <input value={nweet} onChange={onChange} type = "text" placeholder ="what's on your mind" maxLength={120} />
-        <input type="file" accept="image/*" onChange={onFileChange} ref={fileInput} />
         <input type="submit" value="nweet"/>
+        <input type="file" alt="~" accept="image/*" onChange={onFileChange} ref={fileInput} /> 
+        
         
          {attachment && (
           <div>

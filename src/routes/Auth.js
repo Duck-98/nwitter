@@ -1,5 +1,7 @@
+
 import React, { useState } from 'react';
-import {auth, firebaseInstance} from "fbase";
+import {auth, firebaseInstance} from "fbase"; // eslint-disable-line no-unused-vars
+
 
 import {
     createUserWithEmailAndPassword,
@@ -8,7 +10,7 @@ import {
     signInWithEmailAndPassword,
     signInWithPopup,
     getAuth,
-    provider
+    provider // eslint-disable-line no-unused-vars
     } from "@firebase/auth";
 
 const Auth = () =>{
@@ -33,9 +35,9 @@ const Auth = () =>{
            const auth = getAuth(); 
            let data; 
            if(newAccount) {
-            const data = await createUserWithEmailAndPassword(auth, email, password);
+            const data = await createUserWithEmailAndPassword(auth, email, password); // eslint-disable-line no-unused-vars
             } else {
-            const data = await signInWithEmailAndPassword(auth, email, password);
+            const data = await signInWithEmailAndPassword(auth, email, password); // eslint-disable-line no-unused-vars
             }
             console.log(data);
         }catch (error){
