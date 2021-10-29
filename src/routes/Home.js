@@ -2,7 +2,7 @@ import { dbService } from 'fbase';
 import React,{useState, useEffect, useRef} from "react";
 import {addDoc, collection,query, onSnapshot,orderBy} from "firebase/firestore";
 import Nweet from "components/Nweet"
-import { ref, uploadString} from "@firebase/storage";
+import { getDownloadURL, ref, uploadString} from "@firebase/storage";
 import { storageService } from 'fbase';
 import { v4 } from 'uuid';
 
@@ -26,22 +26,24 @@ const Home = ({userObj}) => {
 
 
     const onSubmit = async (e) => {
+        
         e.preventDefault();
-        const fileRef = ref(storageService, `${userObj.uid}/${v4()}`);
-        const response = await uploadString(fileRef, attachment, "data_url");
-         console.log(response);
-        /*try{
-        const docRef = await addDoc(collection(dbService, "nweets"),
-            {
+        let attachmentUrl =""
+        if(attachment !=""){
+            const attachmentRef = ref(storageService, `${userObj.uid}/${v4()}`);
+            const response = await uploadString(attachmentRef, attachment, "data_url");
+            console.log(getDownloadURL(response.ref));
+            attachmentUrl = await getDownloadURL(response.ref);
+        }
+        const nweetObj = {
             nweet,
             createdAt: Date.now(),
             creatorId : userObj.uid, // db에 유저아이디 추가
-        }); // 데이터베이스 생성 
-        console.log("Document Written with Id:", docRef.id);
-        }catch(error){
-            console.log("Error adding document", error)
+            attachmentUrl
         }
-        setNweet("");*/
+        await addDoc(collection(dbService, "nweets"),(nweetObj)); 
+        setNweet("");
+        setAttachment("");
 
     };
 
@@ -80,8 +82,9 @@ return (
 <div>
     <form onSubmit={onSubmit}>
         <input value={nweet} onChange={onChange} type = "text" placeholder ="what's on your mind" maxLength={120} />
-        <input type="submit" value="nweet"/>
         <input type="file" alt="~" accept="image/*" onChange={onFileChange} ref={fileInput} /> 
+        <input type="submit" value="nweet"/>
+       
         
         
          {attachment && (
