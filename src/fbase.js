@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import {getStorage} from "firebase/storage";
 
  // 파이어베이스 데이터베이스를 사용하기 위해 import 함
 
@@ -18,4 +19,4 @@ const app = initializeApp(firebaseConfig); // eslint-disable-line no-unused-vars
 
 export const auth = getAuth();
 export const dbService = getFirestore();
-
+export const storageService = getStorage();

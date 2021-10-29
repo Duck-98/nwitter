@@ -23,8 +23,9 @@ const Home = ({userObj}) => {
 
 
     const onSubmit = async (e) => {
-        try{
         e.preventDefault();
+        try{
+        
         const docRef = await addDoc(collection(dbService, "nweets"),
             {
             nweet,
@@ -38,6 +39,8 @@ const Home = ({userObj}) => {
 
         setNweet("");
     };
+
+    
     const onChange = (event) =>{
         const {target : {value},
         }= event;
