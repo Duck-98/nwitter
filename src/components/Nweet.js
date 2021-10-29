@@ -1,6 +1,8 @@
 import React ,{useState}from "react";
-import { dbService } from 'fbase';
+import { dbService, storageService } from 'fbase';
 import {doc,deleteDoc,updateDoc} from "firebase/firestore";
+import { deleteObject, ref } from '@firebase/storage';
+
 
 
 
@@ -10,12 +12,14 @@ const Nweet = ({nweetObj, isOwner}) =>{
     const [newNweet, setNewNweet] = useState(nweetObj.nweet)
     // 수정할 때 입력란에 기존의 트윗을 나타내기 위한 state
     const NweetTextRef = doc(dbService,"nweets", `${nweetObj.id}`); 
+    const NweetImageRef = ref(storageService, nweetObj.attachmentUrl);
     // 데이터베이스에서 트윗의 아이디를 찾기 위한 코드.
 
     const onDeleteClick = async () => { // 트윗 삭제 함수
         const ok = window.confirm("Are you sure you want to delete this tweet?");        
         if(ok){
-           await deleteDoc(NweetTextRef); // 트윗 삭제기능
+           await deleteDoc(NweetTextRef); // 트윗 글 삭제기능
+           await deleteObject(NweetImageRef); // 트윗 이미지 삭제
         };
     }
 
@@ -26,7 +30,6 @@ const Nweet = ({nweetObj, isOwner}) =>{
         await updateDoc(NweetTextRef,{
         nweet: newNweet,
         });
-
         setEditing(false);
         console.log(nweetObj.id, newNweet);
     }

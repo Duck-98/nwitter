@@ -29,7 +29,7 @@ const Home = ({userObj}) => {
         
         e.preventDefault();
         let attachmentUrl =""
-        if(attachment !=""){
+        if(attachment !== ""){
             const attachmentRef = ref(storageService, `${userObj.uid}/${v4()}`);
             const response = await uploadString(attachmentRef, attachment, "data_url");
             console.log(getDownloadURL(response.ref));
