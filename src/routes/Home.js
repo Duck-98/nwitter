@@ -2,6 +2,9 @@ import { dbService } from 'fbase';
 import React,{useState, useEffect, useRef} from "react";
 import {addDoc, collection,query, onSnapshot,orderBy} from "firebase/firestore";
 import Nweet from "components/Nweet"
+import { ref, uploadString} from "@firebase/storage";
+import { storageService } from 'fbase';
+import { v4 } from 'uuid';
 
 const Home = ({userObj}) => {
     const [nweet, setNweet] = useState("");
@@ -24,8 +27,10 @@ const Home = ({userObj}) => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        try{
-        
+        const fileRef = ref(storageService, `${userObj.uid}/${v4()}`);
+        const response = await uploadString(fileRef, attachment, "data_url");
+         console.log(response);
+        /*try{
         const docRef = await addDoc(collection(dbService, "nweets"),
             {
             nweet,
@@ -36,8 +41,8 @@ const Home = ({userObj}) => {
         }catch(error){
             console.log("Error adding document", error)
         }
+        setNweet("");*/
 
-        setNweet("");
     };
 
     
