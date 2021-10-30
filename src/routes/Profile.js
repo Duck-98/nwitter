@@ -1,13 +1,23 @@
 import React from 'react';
 import { auth } from 'fbase';
+import { useEffect } from 'react';
 
-const Profile = () => <span>Profile</span> // eslint-disable-line no-unused-vars
+const Profile = ({ userObj}) => {
+    const history = userHistory();
 
-export default () => {
-    const onLogOutClick = () => auth.signOut();
+    const onLogOutClick =() =>{
+        auth.signOut();
+        history.push("/");
+    };
+    useEffect(()=> {},[]);
+    
+    
     return (
-    <>
-    <button onClick ={onLogOutClick}>Log out</button>
-    </>
-    );
-};
+        <>
+        <button onClick ={onLogOutClick}>Log out</button>
+        </>
+        );
+}
+
+   
+export default Profile         
