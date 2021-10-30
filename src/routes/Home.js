@@ -71,7 +71,7 @@ const Home = ({userObj}) => {
 
     const onClearPhoto= () =>{
         setAttachment("");
-        fileInput.current.value = "";
+        fileInput.current.value = null;
     } 
     
 
