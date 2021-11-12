@@ -11,7 +11,7 @@ const AppRouter = ({isLoggedIn, userObj}) =>{ //Router을 이미 정의했기 �
    
     return( // switch를 이용하면 여러가지 라우트 중 하나만 렌더링하게 해줌.
         <Router>
-            {isLoggedIn &&<Navigation />} 
+            {isLoggedIn &&<Navigation userObj={userObj}/>} 
             {/* && -> 로그인이 맞다면 Navigation => true*/}
             <Switch>  
                 {isLoggedIn ?( // 로그인 상태 시
