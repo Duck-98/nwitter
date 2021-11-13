@@ -22,7 +22,7 @@ const Profile = ({userObj}) => {
         event.preventDefault();
         if (userObj.displayName !== newDisplayName) {
             await updateProfile(userObj, { displayName: newDisplayName });
-            }
+            }  // 유저이름과 새로운 이름이 같지 않으면 firebase의 updateProfile을 이용하여 새로운 이름으로 업데이트해줌.
     }
     const getMyNweets = async () => {
         const q = query(

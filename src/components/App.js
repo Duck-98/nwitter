@@ -2,8 +2,8 @@ import React from 'react';
 import AppRouter from 'components/Router';
 import {useState, useEffect} from "react";
 import { auth } from "fbase";
+import { getAuth,onAuthStateChanged } from "firebase/auth";
 
- 
 
 function App() {
   
@@ -24,6 +24,24 @@ function App() {
     });
   }, []);
 
+  useEffect(()=>{
+    const auth = getAuth();
+    onAuthStateChanged(auth,(user)=>{
+      if(user){
+        setUserObj({
+          uid : user.uid,
+          displayName : user.displayName
+        })
+      }
+    })
+
+
+  })
+  const refreshUser = () => { // userObj를 새로고침해주는 함수
+    setUserObj({
+
+    })
+    };
   return (
     <>
   {init ? <AppRouter isLoggedIn = {isLoggedIn} userObj={userObj} /> : "Initialzizing.."} 
