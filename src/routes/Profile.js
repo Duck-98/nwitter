@@ -5,7 +5,7 @@ import {useHistory} from 'react-router-dom';
 import { collection, getDocs, query, where } from "@firebase/firestore";
 import { updateProfile } from '@firebase/auth';
 
-const Profile = ({userObj}) => {
+const Profile = ({userObj, refreshUser}) => {
     const history = useHistory();
     const [newDisplayName, setnewDisplayName] = useState(userObj.displayName);
     const onLogOutClick =() =>{
@@ -22,6 +22,7 @@ const Profile = ({userObj}) => {
         event.preventDefault();
         if (userObj.displayName !== newDisplayName) {
             await updateProfile(userObj, { displayName: newDisplayName });
+            refreshUser();
             }  // 유저이름과 새로운 이름이 같지 않으면 firebase의 updateProfile을 이용하여 새로운 이름으로 업데이트해줌.
     }
     const getMyNweets = async () => {
