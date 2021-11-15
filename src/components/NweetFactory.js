@@ -61,7 +61,7 @@ const NweetFactory = ({userObj}) =>{
 
     const onClearPhoto= () =>{
         setAttachment("");
-        fileInput.current.value = null;
+        fileInput.current.value= null;
     } 
     
     return(
