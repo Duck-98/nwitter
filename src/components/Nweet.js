@@ -2,7 +2,8 @@ import React ,{useState}from "react";
 import { dbService, storageService } from 'fbase';
 import {doc,deleteDoc,updateDoc} from "firebase/firestore";
 import { deleteObject, ref } from '@firebase/storage';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -42,14 +43,14 @@ const Nweet = ({nweetObj, isOwner}) =>{
 
 
     return (
-    <div>
+    <div className="nweet"> 
         {editing ? (
             <>
-            <form onSubmit={onSubmit}>
-                <input onChange={onChange} type="text" placeholder ="Edit you tweet!" value={newNweet} required />
-                <input type ="submit" value="Update tweet"/>
+            <form onSubmit={onSubmit} className="container nweetEdit">
+                <input onChange={onChange} type="text" placeholder ="Edit you tweet!" value={newNweet} required autoFocus className="formInput"/>
+                <input type ="submit" className="formBtn" value="Update tweet"/>
             </form>
-            <button onClick={toggleEditing}>Cancel</button>
+            <button onClick={toggleEditing} className="formBtn cancelBtn">Cancel</button>
             </>
         ) : (
             <>
@@ -58,10 +59,14 @@ const Nweet = ({nweetObj, isOwner}) =>{
                  <img src  ={nweetObj.attachmentUrl} alt='~' width="50px" height="50px" />
             )}
             {isOwner && (
-                <>
-                    <button onClick={onDeleteClick}>Delete tweet</button>
-                    <button onClick={toggleEditing}>Edit Nweet</button>            
-                </>
+                <div className="nweet__actions">
+                    <span onClick={onDeleteClick}>
+                        <FontAwesomeIcon icon={faTrash} />
+                    </span>
+                    <span onClick={toggleEditing}>
+                        <FontAwesomeIcon icon={faPencilAlt} />
+                    </span>           
+                </div>
             )}
             </>
         )}

@@ -15,7 +15,16 @@ const AppRouter = ({isLoggedIn, userObj,refreshUser}) =>{ //Router을 이미 정
             {/* && -> 로그인이 맞다면 Navigation => true*/}
             <Switch>  
                 {isLoggedIn ?( // 로그인 상태 시
-                <>
+                <div
+                style={{
+                  maxWidth: 890,
+                  width: "100%",
+                  margin: "0 auto",
+                  marginTop: 80,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
                     <Route exact path ="/">  
                         <Home userObj={userObj} />
                     </Route>  
@@ -23,7 +32,7 @@ const AppRouter = ({isLoggedIn, userObj,refreshUser}) =>{ //Router을 이미 정
                     <Profile refreshUser={refreshUser} userObj={userObj} />
                 </Route>
                 <Redirect from="*" to="/" />
-                </> 
+                </div> 
                 ) : ( // 비로그인 상태 시
                     <>
                     <Route exact path ="/"> 

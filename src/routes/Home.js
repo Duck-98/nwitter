@@ -24,7 +24,7 @@ const Home = ({userObj}) => {
         }, []);
 
 return (
- <>   
+    <div className="container">
     <NweetFactory userObj={userObj} />
     <div> 
         {nweets.map((nweet) => (
@@ -37,7 +37,7 @@ return (
         />
             ))}
     </div>
-</>
+    </div>        
     );
 };
 
