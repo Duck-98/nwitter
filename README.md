@@ -26,7 +26,7 @@
 
 ## 메인 화면
 
-<img width = "70%" src =img/main.png">
+<img width = "70%" src ="img/main.png">
 
 > 트윗 수정 및 삭제, 트윗을 올릴 수 있습니다.
 
